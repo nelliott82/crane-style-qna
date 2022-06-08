@@ -4,16 +4,15 @@ const AlertBar = (props) => {
   return (
     <div id="alert-bar">
       <span className="alert-bar-message">
-        <em>SITE-WIDE ANNOUNCEMENT MESSAGE!</em>
+        <em>SUMMER SALE ALL THIS WEEK!</em>
       </span>
       &mdash;
       <span className="alert-bar-message">
-        SALE / DISCOUNT
-        <strong> OFFER</strong>
+        <strong> 50% OFF ALL DRESSES AND SHORTS</strong>
       </span>
       &mdash;
       <span className="alert-bar-message">
-        <u>NEW PRODUCT HIGHLIGHT</u>
+        <u>CHECK OUT THE NEW YEASY 350S</u>
       </span>
     </div>
   );
