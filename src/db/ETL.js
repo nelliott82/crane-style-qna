@@ -19,7 +19,7 @@ pool.query(`DROP TABLE IF EXISTS questions`, (err, res) => {
 
   } else {
     pool.query(`CREATE TABLE IF NOT EXISTS questions
-                                          (id INT NOT NULL PRIMARY KEY ,
+                                          (id BIGSERIAL PRIMARY KEY ,
                                           product_id INT NOT NULL ,
                                           body VARCHAR(300) ,
                                           date_written BIGINT ,
@@ -42,7 +42,7 @@ pool.query(`DROP TABLE IF EXISTS answers`, (err, res) => {
 
   } else {
     pool.query(`CREATE TABLE IF NOT EXISTS answers
-                                            (id INT NOT NULL PRIMARY KEY ,
+                                            (id BIGSERIAL PRIMARY KEY ,
                                             question_id INT NOT NULL ,
                                             body VARCHAR(300) ,
                                             date_written BIGINT ,
@@ -65,7 +65,7 @@ pool.query(`DROP TABLE IF EXISTS photos`, (err, res) => {
 
   } else {
     pool.query(`CREATE TABLE IF NOT EXISTS photos
-                                            (id INT NOT NULL PRIMARY KEY ,
+                                            (id BIGSERIAL PRIMARY KEY ,
                                             answer_id INT NOT NULL ,
                                             url VARCHAR(1000)
                                             )`, (err, res) => {
