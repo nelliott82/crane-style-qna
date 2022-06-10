@@ -19,7 +19,7 @@ pool.query(`DROP TABLE IF EXISTS questions`, (err, res) => {
 
   } else {
     pool.query(`CREATE TABLE IF NOT EXISTS questions
-                (id BIGSERIAL PRIMARY KEY ,
+                (id BIGSERIAL UNIQUE PRIMARY KEY ,
                 product_id INT NOT NULL ,
                 body VARCHAR(300) ,
                 date_written BIGINT ,
@@ -35,6 +35,7 @@ pool.query(`DROP TABLE IF EXISTS questions`, (err, res) => {
                       if (err) {
 
                       } else {
+                        pool.query(`SELECT setval('questions_id_seq', (SELECT max(id) FROM questions))`);
                         //pool.query(`CREATE INDEX id_questions ON questions(id)`);
                       }
                     });
@@ -48,7 +49,7 @@ pool.query(`DROP TABLE IF EXISTS answers`, (err, res) => {
 
   } else {
     pool.query(`CREATE TABLE IF NOT EXISTS answers
-                (id BIGSERIAL PRIMARY KEY ,
+                (id BIGSERIAL UNIQUE PRIMARY KEY ,
                 question_id INT NOT NULL ,
                 body VARCHAR(300) ,
                 date_written BIGINT ,
@@ -64,6 +65,7 @@ pool.query(`DROP TABLE IF EXISTS answers`, (err, res) => {
                     if (err) {
 
                     } else {
+                      pool.query(`SELECT setval('answers_id_seq', (SELECT max(id) FROM answers))`);
                       //pool.query(`CREATE INDEX id_answers ON answers(id)`);
                     }
                   });
@@ -77,7 +79,7 @@ pool.query(`DROP TABLE IF EXISTS photos`, (err, res) => {
 
   } else {
     pool.query(`CREATE TABLE IF NOT EXISTS photos
-                (id BIGSERIAL PRIMARY KEY ,
+                (id BIGSERIAL UNIQUE PRIMARY KEY ,
                 answer_id INT NOT NULL ,
                 url VARCHAR(1000)
                 )`, (err, res) => {
@@ -88,6 +90,7 @@ pool.query(`DROP TABLE IF EXISTS photos`, (err, res) => {
                     if (err) {
 
                     } else {
+                      pool.query(`SELECT setval('photos_id_seq', (SELECT max(id) FROM photos))`);
                       //pool.query(`CREATE INDEX id_photos ON photos(id)`);
                     }
                   });
