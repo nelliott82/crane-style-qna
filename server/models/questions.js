@@ -47,12 +47,14 @@ module.exports = {
                                           )
                                           FROM answers a
                                           WHERE q.id = a.question_id
+                                          AND a.reported = 0
                                         )
                           )
                         )
                       )
                       FROM questions q
-                      WHERE q.product_id = ${product_id}`, null, (err, results) => {
+                      WHERE q.product_id = ${product_id}
+                      AND q.reported = 0`, null, (err, results) => {
       if (err) {
         callback(err);
       } else {
@@ -71,7 +73,26 @@ module.exports = {
     });
   },
   post: function (body, callback) {
-    pool.query(``, null, (err, results) => {
+    var date_written = new Date().getTime();
+    console.log(date_written)
+    pool.query(`INSERT INTO questions
+                (product_id ,
+                 body ,
+                 date_written ,
+                 asker_name ,
+                 asker_email ,
+                 reported,
+                 helpful
+                )
+                VALUES
+                (${body.product_id} ,
+                 '${body.body}' ,
+                 ${date_written} ,
+                 '${body.asker_name}' ,
+                 '${body.asker_email}' ,
+                 0 ,
+                 0
+                )`, null, (err, results) => {
       if (err) {
         callback(err);
       } else {
