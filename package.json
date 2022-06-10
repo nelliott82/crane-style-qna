@@ -7,8 +7,8 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "start": "nodemon ./server/server.js",
-    "startDB": "nodemon src/db/ETL.js"
+    "start": "nodemon server/server.js",
+    "startDB": "nodemon server/db/ETL.js"
   },
   "dependencies": {
     "axios": "^0.19.2",
@@ -19,10 +19,5 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
-  },
-  "jest": {
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ]
   }
 }
