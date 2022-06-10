@@ -95,3 +95,5 @@ pool.query(`DROP TABLE IF EXISTS photos`, (err, res) => {
           });
     }
 });
+
+// module.exports = { pool }
