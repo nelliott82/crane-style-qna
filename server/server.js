@@ -1,13 +1,15 @@
 const express = require('express');
 const app = express();
-const port = 5432;
-const path = require('path');
+const port = 8080;
 
-app.use(express.static('dist'));
+var routerQuestions = require('./routesQuestions.js');
+var routerAnswers = require('./routesAnswers.js');
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
+app.use(express.json());
+
+app.use('/questions', routerQuestions);
+
+app.use('/answerss', routerAnswers);
 
 app.listen(port, () =>
   console.log(`Example app listening at http://localhost:${port}`)
