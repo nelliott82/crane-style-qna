@@ -74,25 +74,12 @@ module.exports = {
   },
   post: function (body, callback) {
     var date_written = new Date().getTime();
-    console.log(date_written)
+    body.body = body.body.replace(/'/g, "''");
     pool.query(`INSERT INTO questions
-                (product_id,
-                 body,
-                 date_written,
-                 asker_name,
-                 asker_email,
-                 reported,
-                 helpful
-                )
+                (product_id, body, date_written, asker_name, asker_email, reported, helpful)
                 VALUES
-                (${body.product_id},
-                 '${body.body}',
-                 ${date_written},
-                 '${body.asker_name}',
-                 '${body.asker_email}',
-                 0,
-                 0
-                )`, null, (err, results) => {
+                (${body.product_id}, '${body.body}', ${date_written}, '${body.asker_name}', '${body.asker_email}', 0, 0)`,
+                null, (err, results) => {
       if (err) {
         callback(err);
       } else {
