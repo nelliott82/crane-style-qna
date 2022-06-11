@@ -9,7 +9,7 @@ app.use(express.json());
 
 app.use('/questions', routerQuestions);
 
-app.use('/answerss', routerAnswers);
+app.use('/answers', routerAnswers);
 
 app.listen(port, () =>
   console.log(`Example app listening at http://localhost:${port}`)
