@@ -65,7 +65,7 @@ module.exports = {
         for (let question of questions.results) {
           question.question_date = new Date(question.question_date).toISOString();
           for (let answer in question.answers) {
-            question.answers[answer].date = new Date(question.answers[answer].date);
+            question.answers[answer].date = new Date(question.answers[answer].date).toISOString();
           }
         }
         callback(null, questions);
@@ -76,21 +76,21 @@ module.exports = {
     var date_written = new Date().getTime();
     console.log(date_written)
     pool.query(`INSERT INTO questions
-                (product_id ,
-                 body ,
-                 date_written ,
-                 asker_name ,
-                 asker_email ,
+                (product_id,
+                 body,
+                 date_written,
+                 asker_name,
+                 asker_email,
                  reported,
                  helpful
                 )
                 VALUES
-                (${body.product_id} ,
-                 '${body.body}' ,
-                 ${date_written} ,
-                 '${body.asker_name}' ,
-                 '${body.asker_email}' ,
-                 0 ,
+                (${body.product_id},
+                 '${body.body}',
+                 ${date_written},
+                 '${body.asker_name}',
+                 '${body.asker_email}',
+                 0,
                  0
                 )`, null, (err, results) => {
       if (err) {
@@ -100,13 +100,26 @@ module.exports = {
       }
     });
   },
-  put: function (callback) {
-    pool.query(``, null, (err, results) => {
+  putHelpful: function (question_id, callback) {
+    pool.query(`UPDATE questions
+                SET helpful = helpful + 1
+                WHERE id = ${question_id}`, null, (err, results) => {
       if (err) {
         callback(err);
       } else {
         callback(null, results);
       }
     });
-  }
+  },
+  putReported: function (question_id, callback) {
+    pool.query(`UPDATE questions
+                SET reported = 1
+                WHERE id = ${question_id}`, null, (err, results) => {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, results);
+      }
+    });
+  },
 };
