@@ -2,7 +2,7 @@ var models = require('../models');
 
 module.exports = {
   get: function (req, res) {
-    models.answers.get(req.params.question_id, function(err, results) {
+    models.answers.get(req.params.question_id, req.query.page, req.query.count, function(err, results) {
       if (err) {
         res.statusCode = 400;
         res.end(JSON.stringify(err));
