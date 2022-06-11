@@ -15,63 +15,73 @@ const pool = new Pool(
 pool.connect();
 
 module.exports = {
-  get: function (question_id, callback) {
+  get: function (question_id, page, count, callback) {
+    count = count || 5;
+    var offset = page ? (page * count) - count : 0;
+    console.log('count: ', count);
+    console.log('offset: ', offset);
     pool.query(`SELECT array_to_json(
                         array_agg(
                           json_build_object(
-                            'question_id', q.id,
-                            'question_body', q.body,
-                            'question_date', q.date_written,
-                            'question_reported', q.reported,
-                            'question_helpful', q.helpful,
-                            'answers', (SELECT json_object_agg(
-                                             a.id, json_build_object(
-                                            'body', a.body,
-                                            'date', a.date_written,
-                                            'answerer_name', a.answerer_name,
-                                            'reported', a.reported,
-                                            'helpfulness', a.helpful,
-                                            'photos', (SELECT
-                                                        array_to_json(
-                                                          array_agg(
-                                                            json_build_object(
-                                                              'id', p.id,
-                                                              'url', p.url
-                                                            )
-                                                          )
-                                                        )
-                                                        FROM photos p
-                                                        WHERE a.id = p.answer_id
-                                                      )
+                            'answer_id', a.id,
+                            'body', a.body,
+                            'date', a.date_written,
+                            'answerer_name', a.answerer_name,
+                            'photos', (SELECT
+                                        array_to_json(
+                                          array_agg(
+                                            json_build_object(
+                                              'id', p.id,
+                                              'url', p.url
                                             )
                                           )
-                                          FROM answers a
-                                          WHERE q.id = a.question_id
                                         )
+                                        FROM photos p
+                                        WHERE a.id = p.answer_id
+                                      )
                           )
                         )
                       )
-                      FROM questions q
-                      WHERE q.id = ${question_id}`, null, (err, results) => {
+                      FROM answers a
+                      WHERE a.question_id = ${question_id}
+                      AND a.reported = 0`, null, (err, results) => {
       if (err) {
         callback(err);
       } else {
-        var questions = {
-          product_id,
-          results: results.rows[0].array_to_json
+        var limited = results.rows[0].array_to_json.slice(offset, offset + count);
+        var answers = {
+          question: question_id,
+          page,
+          count,
+          results: limited
         }
-        for (let question of questions.results) {
-          question.question_date = new Date(question.question_date).toISOString();
-          for (let answer in question.answers) {
-            question.answers[answer].date = new Date(question.answers[answer].date);
-          }
+        for (let answer of answers.results) {
+          answer.date = new Date(answer.date);
         }
-        callback(null, questions);
+        callback(null, answers);
       }
     });
   },
   post: function (body, callback) {
-    pool.query(``, null, (err, results) => {
+    var date_written = new Date().getTime();
+    pool.query(`INSERT INTO answers
+                (question_id ,
+                 body ,
+                 date_written ,
+                 answerer_name ,
+                 answerer_email ,
+                 reported,
+                 helpful
+                )
+                VALUES
+                (${body.question_id} ,
+                 '${body.body}' ,
+                 ${date_written} ,
+                 '${body.answerer_name}' ,
+                 '${body.answerer_email}' ,
+                 0 ,
+                 0
+                )`, null, (err, results) => {
       if (err) {
         callback(err);
       } else {
@@ -79,13 +89,26 @@ module.exports = {
       }
     });
   },
-  put: function (callback) {
-    pool.query(``, null, (err, results) => {
+  putHelpful: function (question_id, callback) {
+    pool.query(`UPDATE questions
+                SET helpful = helpful + 1
+                WHERE id = ${question_id}`, null, (err, results) => {
       if (err) {
         callback(err);
       } else {
         callback(null, results);
       }
     });
-  }
+  },
+  putReported: function (question_id, callback) {
+    pool.query(`UPDATE questions
+                SET reported = 1
+                WHERE id = ${question_id}`, null, (err, results) => {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, results);
+      }
+    });
+  },
 };
