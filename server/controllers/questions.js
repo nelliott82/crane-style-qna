@@ -18,8 +18,7 @@ module.exports = {
         res.statusCode = 400;
         res.end(JSON.stringify(err));
       } else {
-        res.statusCode = 201;
-        res.end(JSON.stringify(results));
+        res.sendStatus(201);
       }
     });
   },
@@ -29,8 +28,7 @@ module.exports = {
         res.statusCode = 400;
         res.end(JSON.stringify(err));
       } else {
-        res.statusCode = 204;
-        res.end(JSON.stringify(results));
+        res.sendStatus(204);
       }
     });
   },
@@ -40,8 +38,7 @@ module.exports = {
         res.statusCode = 400;
         res.end(JSON.stringify(err));
       } else {
-        res.statusCode = 204;
-        res.end(JSON.stringify(results));
+        res.sendStatus(204);
       }
     });
   },
