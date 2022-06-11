@@ -8,7 +8,8 @@
   "license": "ISC",
   "scripts": {
     "start": "nodemon server/server.js",
-    "startDB": "nodemon server/db/ETL.js"
+    "startDB": "nodemon server/db/ETL.js",
+    "test": "npx jest"
   },
   "dependencies": {
     "axios": "^0.19.2",
@@ -20,6 +21,8 @@
     "pg": "^8.7.3"
   },
   "devDependencies": {
+    "frisby": "^2.1.3",
+    "jest": "^28.1.1",
     "nodemon": "^2.0.4"
   }
 }
