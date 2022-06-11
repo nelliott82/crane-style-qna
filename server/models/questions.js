@@ -54,13 +54,17 @@ module.exports = {
                       )
                       FROM questions q
                       WHERE q.product_id = ${product_id}
-                      AND q.reported = 0`, null, (err, results) => {
+                      AND q.reported = 0`, (err, results) => {
       if (err) {
         callback(err);
       } else {
         var questions = {
           product_id,
-          results: results.rows[0].array_to_json
+        }
+        if (results.rows[0].array_to_json) {
+          questions.results = results.rows[0].array_to_json;
+        } else {
+          questions.results = [];
         }
         for (let question of questions.results) {
           question.question_date = new Date(question.question_date).toISOString();
@@ -79,7 +83,7 @@ module.exports = {
                 (product_id, body, date_written, asker_name, asker_email, reported, helpful)
                 VALUES
                 (${body.product_id}, '${body.body}', ${date_written}, '${body.asker_name}', '${body.asker_email}', 0, 0)`,
-                null, (err, results) => {
+                (err, results) => {
       if (err) {
         callback(err);
       } else {
@@ -90,7 +94,7 @@ module.exports = {
   putHelpful: function (question_id, callback) {
     pool.query(`UPDATE questions
                 SET helpful = helpful + 1
-                WHERE id = ${question_id}`, null, (err, results) => {
+                WHERE id = ${question_id}`, (err, results) => {
       if (err) {
         callback(err);
       } else {
@@ -101,7 +105,7 @@ module.exports = {
   putReported: function (question_id, callback) {
     pool.query(`UPDATE questions
                 SET reported = 1
-                WHERE id = ${question_id}`, null, (err, results) => {
+                WHERE id = ${question_id}`, (err, results) => {
       if (err) {
         callback(err);
       } else {
