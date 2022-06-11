@@ -13,7 +13,6 @@ module.exports = {
     });
   },
   post: function (req, res) {
-    console.log(req.body);
     models.answers.post(req.body, function(err, results) {
       if (err) {
         res.statusCode = 400;
