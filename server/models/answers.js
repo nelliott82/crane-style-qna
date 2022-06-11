@@ -18,8 +18,7 @@ module.exports = {
   get: function (question_id, page, count, callback) {
     count = count || 5;
     var offset = page ? (page * count) - count : 0;
-    console.log('count: ', count);
-    console.log('offset: ', offset);
+    page = page || 1;
     pool.query(`SELECT array_to_json(
                         array_agg(
                           json_build_object(
