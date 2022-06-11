@@ -64,6 +64,7 @@ module.exports = {
   },
   post: function (body, callback) {
     var date_written = new Date().getTime();
+    body.body = body.body.replace(/'/g, "''");
     pool.query(`INSERT INTO answers
                 (question_id ,
                  body ,
@@ -89,10 +90,10 @@ module.exports = {
       }
     });
   },
-  putHelpful: function (question_id, callback) {
-    pool.query(`UPDATE questions
+  putHelpful: function (answer_id, callback) {
+    pool.query(`UPDATE answers
                 SET helpful = helpful + 1
-                WHERE id = ${question_id}`, null, (err, results) => {
+                WHERE id = ${answer_id}`, null, (err, results) => {
       if (err) {
         callback(err);
       } else {
@@ -100,10 +101,10 @@ module.exports = {
       }
     });
   },
-  putReported: function (question_id, callback) {
-    pool.query(`UPDATE questions
+  putReported: function (answer_id, callback) {
+    pool.query(`UPDATE answers
                 SET reported = 1
-                WHERE id = ${question_id}`, null, (err, results) => {
+                WHERE id = ${answer_id}`, null, (err, results) => {
       if (err) {
         callback(err);
       } else {
