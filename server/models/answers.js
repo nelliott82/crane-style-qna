@@ -43,19 +43,24 @@ module.exports = {
                       )
                       FROM answers a
                       WHERE a.question_id = ${question_id}
-                      AND a.reported = 0`, null, (err, results) => {
+                      AND a.reported = 0`, (err, results) => {
       if (err) {
         callback(err);
       } else {
-        var limited = results.rows[0].array_to_json.slice(offset, offset + count);
         var answers = {
           question: question_id,
           page,
-          count,
-          results: limited
+          count
         }
-        for (let answer of answers.results) {
-          answer.date = new Date(answer.date);
+        if (results.rows[0].array_to_json) {
+          var limited = results.rows[0].array_to_json.slice(offset, offset + count);
+          answers.results = limited;
+
+          for (let answer of answers.results) {
+            answer.date = new Date(answer.date);
+          }
+        } else {
+          answers.results = [];
         }
         callback(null, answers);
       }
@@ -81,7 +86,7 @@ module.exports = {
                  '${body.answerer_email}' ,
                  0 ,
                  0
-                )`, null, (err, results) => {
+                )`, (err, results) => {
       if (err) {
         callback(err);
       } else {
@@ -92,7 +97,7 @@ module.exports = {
   putHelpful: function (answer_id, callback) {
     pool.query(`UPDATE answers
                 SET helpful = helpful + 1
-                WHERE id = ${answer_id}`, null, (err, results) => {
+                WHERE id = ${answer_id}`, (err, results) => {
       if (err) {
         callback(err);
       } else {
@@ -103,7 +108,7 @@ module.exports = {
   putReported: function (answer_id, callback) {
     pool.query(`UPDATE answers
                 SET reported = 1
-                WHERE id = ${answer_id}`, null, (err, results) => {
+                WHERE id = ${answer_id}`, (err, results) => {
       if (err) {
         callback(err);
       } else {
