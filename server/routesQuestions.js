@@ -6,9 +6,9 @@ routerQuestions.get('/:product_id', controller.questions.get);
 
 routerQuestions.post('/', controller.questions.post);
 
-// router.put('/helpful', controller.questions.putHelpful);
+routerQuestions.put('/:question_id/helpful', controller.questions.putHelpful);
 
-// router.put('/report', controller.questions.putReport);
+routerQuestions.put('/:question_id/report', controller.questions.putReported);
 
 
 module.exports = routerQuestions;
