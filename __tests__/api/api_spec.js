@@ -61,7 +61,7 @@ describe('GET Questions', function () {
 describe('POST Question', function () {
   var url = 'http://localhost:8080';
   var route = '/questions';
-  var product_id = 1;
+  var product_id = 10;
   var body = 'Test body';
   var asker_name = 'Test name';
   var asker_email = 'Test email';
@@ -85,7 +85,7 @@ describe('POST Question', function () {
 describe('PUT Question Helpful', function () {
   var url = 'http://localhost:8080';
   var route = '/questions/';
-  var question_id = 1;
+  var question_id = 3;
   var put = '/helpful'
 
   it('should get a 204 response when putting a question as helpful', function () {
@@ -99,7 +99,7 @@ describe('PUT Question Helpful', function () {
 describe('PUT Question Reported', function () {
   var url = 'http://localhost:8080';
   var route = '/questions/';
-  var question_id = 1;
+  var question_id = 3;
   var put = '/report'
 
   it('should get a 204 response when putting a question as reported', function () {
