@@ -77,6 +77,7 @@ module.exports = {
     });
   },
   post: function (body, callback) {
+    console.log(body)
     var date_written = new Date().getTime();
     body.body = body.body.replace(/'/g, "''");
     pool.query(`INSERT INTO questions
