@@ -35,8 +35,10 @@ pool.query(`DROP TABLE IF EXISTS questions`, (err, res) => {
                       if (err) {
 
                       } else {
-                        pool.query(`SELECT setval('questions_id_seq', (SELECT max(id) FROM questions))`);
-                        //pool.query(`CREATE INDEX id_questions ON questions(id)`);
+                        pool.query(`SELECT setval('questions_id_seq', (SELECT max(id) FROM questions))`, (err, res) => {
+
+                          pool.query(`CREATE INDEX id_questions ON questions(product_id)`);
+                        });
                       }
                     });
                 }
@@ -65,8 +67,10 @@ pool.query(`DROP TABLE IF EXISTS answers`, (err, res) => {
                     if (err) {
 
                     } else {
-                      pool.query(`SELECT setval('answers_id_seq', (SELECT max(id) FROM answers))`);
-                      //pool.query(`CREATE INDEX id_answers ON answers(id)`);
+                      pool.query(`SELECT setval('answers_id_seq', (SELECT max(id) FROM answers))`, (err, res) => {
+
+                        pool.query(`CREATE INDEX id_answers ON answers(question_id)`);
+                      });
                     }
                   });
               }
@@ -90,8 +94,10 @@ pool.query(`DROP TABLE IF EXISTS photos`, (err, res) => {
                     if (err) {
 
                     } else {
-                      pool.query(`SELECT setval('photos_id_seq', (SELECT max(id) FROM photos))`);
-                      //pool.query(`CREATE INDEX id_photos ON photos(id)`);
+                      pool.query(`SELECT setval('photos_id_seq', (SELECT max(id) FROM photos))`, (err, res) => {
+
+                        pool.query(`CREATE INDEX id_photos ON photos(answer_id)`);
+                      });
                     }
                   });
               }
