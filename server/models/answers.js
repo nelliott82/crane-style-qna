@@ -5,7 +5,7 @@ require("dotenv").config();
 const pool = new Pool(
   {
     user: `${process.env.PGUSER}`,
-    host: `${process.env.PGHOST}`,
+    host: `${process.env.PGHOSTPROD}`,
     port: `${process.env.PGPORT}`,
     database: `${process.env.PGDATABASE}`,
     password: `${process.env.PGPASSWORD}`
@@ -86,11 +86,25 @@ module.exports = {
                  '${body.answerer_email}' ,
                  0 ,
                  0
-                )`, (err, results) => {
+                )
+                RETURNING id`, (err, results) => {
       if (err) {
         callback(err);
       } else {
-        callback(null, results);
+        pool.query(`INSERT INTO photos
+                    (answer_id ,
+                     url
+                     )
+                     VALUES
+                     (${results.rows[0].id} ,
+                     '${body.photos}'
+                     )`, (err, results) => {
+          if (err) {
+            callback(err)
+          } else {
+            callback(null, results);
+          }
+        })
       }
     });
   },
