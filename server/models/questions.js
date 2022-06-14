@@ -5,7 +5,7 @@ require("dotenv").config();
 const pool = new Pool(
   {
     user: `${process.env.PGUSER}`,
-    host: `${process.env.PGHOST}`,
+    host: `${process.env.PGHOSTPROD}`,
     port: `${process.env.PGPORT}`,
     database: `${process.env.PGDATABASE}`,
     password: `${process.env.PGPASSWORD}`
@@ -77,7 +77,6 @@ module.exports = {
     });
   },
   post: function (body, callback) {
-    console.log(body)
     var date_written = new Date().getTime();
     body.body = body.body.replace(/'/g, "''");
     pool.query(`INSERT INTO questions
