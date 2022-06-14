@@ -7,3 +7,5 @@ questions.csv
 answers.csv
 answers_photos.csv
 .env
+sdc-postgres.pem
+sdc-server.pem
