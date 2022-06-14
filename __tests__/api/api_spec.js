@@ -61,7 +61,7 @@ describe('GET Questions', function () {
 describe('POST Question', function () {
   var url = 'http://localhost:8080';
   var route = '/questions';
-  var product_id = 10;
+  var product_id = 1234567890;
   var body = 'Test body';
   var asker_name = 'Test name';
   var asker_email = 'Test email';
@@ -78,6 +78,11 @@ describe('POST Question', function () {
 
     return frisby.post(url + route, postBody)
       .expect('status', 201);
+  });
+
+  it('should get a 200 response when getting the relateded question', function () {
+    return frisby.get(url + route + product_id)
+      .expect('status', 200)
   });
 
 })
