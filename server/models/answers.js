@@ -91,14 +91,13 @@ module.exports = {
       if (err) {
         callback(err);
       } else {
+        var photosValues = body.photos.map(url => `(${results.rows[0].id},'${url}')`).join(',')
         pool.query(`INSERT INTO photos
                     (answer_id ,
                      url
-                     )
-                     VALUES
-                     (${results.rows[0].id} ,
-                     '${body.photos}'
-                     )`, (err, results) => {
+                    )
+                    VALUES
+                    ${photosValues}`, (err, results) => {
           if (err) {
             callback(err)
           } else {
