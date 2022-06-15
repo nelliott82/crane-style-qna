@@ -12,7 +12,7 @@ app.use('/questions', routerQuestions);
 app.use('/answers', routerAnswers);
 
 app.get('/loaderio-234f1cb7a527c2b22493aed25dd6f349', (req, res) => {
-    res.sendFile('loaderio-234f1cb7a527c2b22493aed25dd6f349.txt');
+    res.sendFile(path.join(__dirname, 'loaderio-234f1cb7a527c2b22493aed25dd6f349.txt'));
   }
 );
 
