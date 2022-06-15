@@ -16,13 +16,13 @@ import { check, sleep } from 'k6';
 // };
 export const options = {
   stages: [
-    { duration: '10s', target: 10 }
+    { duration: '10s', target: 100 }
   ],
 };
 
 export default function () {
   var product_id = Math.floor(Math.random() * (1000011 - 900000)) + 900000;
-  var res = http.get(`http://localhost:8080/questions/${product_id}`);
+  var res = http.get(`http://54.176.15.107:8080/questions/${product_id}`);
   check(res, { 'status was 200': (r) => r.status == 200 });
-  sleep(0);
+  sleep(0.001);
 }
