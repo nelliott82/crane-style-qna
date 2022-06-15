@@ -10,7 +10,7 @@ import { check, sleep } from 'k6';
 // };
 export const options = {
   stages: [
-    { duration: '30s', target: 20 }
+    { duration: '10s', target: 100 }
   ],
 };
 
@@ -20,5 +20,5 @@ export default function () {
 
   var res = http.put(`http://54.176.15.107:8080/questions/${question_id}/helpful`);
   check(res, { 'status was 204': (r) => r.status == 204 });
-  sleep(1);
+  sleep(0.001);
 }
