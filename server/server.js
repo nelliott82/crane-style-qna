@@ -11,13 +11,13 @@ app.use('/questions', routerQuestions);
 
 app.use('/answers', routerAnswers);
 
-app.get('/loaderio-234f1cb7a527c2b22493aed25dd6f349', (err, res) => {
+app.get('/loaderio-234f1cb7a527c2b22493aed25dd6f349', (req, res) => {
   if (err) {
     res.statusCode = 500;
     console.log(err);
     res.end(JSON.stringify(err));
   } else {
-    res.sendFile(path.join(__dirname, 'loaderio-234f1cb7a527c2b22493aed25dd6f349.txt'))
+    res.sendFile('loaderio-234f1cb7a527c2b22493aed25dd6f349.txt');
   }
 });
 
