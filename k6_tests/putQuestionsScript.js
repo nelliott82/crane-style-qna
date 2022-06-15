@@ -16,9 +16,9 @@ export const options = {
 
 export default function () {
   // var res = http.get('https://test.k6.io');
-  var question_id = Math.floor(Math.random() * 3000000);
+  var question_id = Math.floor(Math.random() * (3518963 - 3167067)) + 3167067;
 
-  var res = http.put(`http://localhost:8080/questions/${question_id}/helpful`);
+  var res = http.put(`http://54.176.15.107:8080/questions/${question_id}/helpful`);
   check(res, { 'status was 204': (r) => r.status == 204 });
   sleep(1);
 }
