@@ -9,3 +9,5 @@ answers_photos.csv
 .env
 sdc-postgres.pem
 sdc-server.pem
+sdc-load-balancer.pem
+Stress Testing.numbers
