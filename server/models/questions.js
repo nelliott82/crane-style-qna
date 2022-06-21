@@ -5,7 +5,7 @@ require("dotenv").config();
 const pool = new Pool(
   {
     user: `${process.env.PGUSER}`,
-    host: `${process.env.PGHOSTDEV}`,
+    host: `${process.env.PGHOSTPROD}`,
     port: `${process.env.PGPORT}`,
     database: `${process.env.PGDATABASE}`,
     password: `${process.env.PGPASSWORD}`
