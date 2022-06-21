@@ -5,7 +5,7 @@ require("dotenv").config();
 const pool = new Pool(
   {
     user: `${process.env.PGUSER}`,
-    host: `${process.env.PGHOSTPROD}`,
+    host: `${process.env.PGHOSTDEV}`,
     port: `${process.env.PGPORT}`,
     database: `${process.env.PGDATABASE}`,
     password: `${process.env.PGPASSWORD}`
@@ -13,6 +13,21 @@ const pool = new Pool(
 );
 
 pool.connect();
+
+function roundQuestions (num) {
+  if (num % 100000 === 0) {
+    num = num + 1;
+  }
+  return Math.round(Math.ceil(num / 100000) * 100000);
+}
+
+
+function roundAnswersPhotos (num) {
+  if (num % 500000 === 0) {
+    num = num + 1;
+  }
+  return Math.round(Math.ceil(num / 500000) * 500000);
+}
 
 module.exports = {
   get: function (product_id, callback) {
@@ -52,7 +67,7 @@ module.exports = {
                           )
                         )
                       )
-                      FROM questions q
+                      FROM questions_u${roundQuestions(product_id)} q
                       WHERE q.product_id = ${product_id}
                       AND q.reported = 0`, (err, results) => {
       if (err) {
