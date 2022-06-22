@@ -14,21 +14,6 @@ const pool = new Pool(
 
 pool.connect();
 
-function roundQuestions (num) {
-  if (num % 100000 === 0) {
-    num = num + 1;
-  }
-  return Math.round(Math.ceil(num / 100000) * 100000);
-}
-
-
-function roundAnswersPhotos (num) {
-  if (num % 500000 === 0) {
-    num = num + 1;
-  }
-  return Math.round(Math.ceil(num / 500000) * 500000);
-}
-
 module.exports = {
   get: function (product_id, callback) {
     pool.query(`SELECT array_to_json(
@@ -67,7 +52,7 @@ module.exports = {
                           )
                         )
                       )
-                      FROM questions_u${roundQuestions(product_id)} q
+                      FROM questions q
                       WHERE q.product_id = ${product_id}
                       AND q.reported = 0`, (err, results) => {
       if (err) {
